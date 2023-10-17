@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="1000">
+  <title>IP Ban List</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 20px;
+      background-color: #222;
+      color: #fff;
+      text-align: center;
+    }
+
+    h2 {
+      color: #00a8cc;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    input {
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #444;
+      color: #F5F3F0;
+      border: 1px solid #555;
+      border-radius: 4px;
+      width: 40vw;
+      box-sizing: border-box;
+      display: block;
+      margin: 10px auto;
+      text-align: center;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #007BFF;
+    }
+
+    button {
+      padding: 10px;
+      background-color: #007BFF;
+      color: #F5F3F0;
+      border: none;
+      cursor: pointer;
+
+      border-radius: 4px;
+      display: block;
+      margin: 10px auto;
+    }
+
+    #banbtn {
+      width: 80px;
+      border: 1px solid #007BFF;
+    }
+
+    #banbtn:focus {
+      background: #555;
+      border-color: #555;
+    }
+
+    #banbtn:disabled {
+      border-color: #B22222;
+    }
+
+    #warn {
+      color: #B22222;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #555;
+    }
+
+    button.unban {
+      background-color: #7AAD7B;
+      border: 1px solid #7AAD7B;
+    }
+
+    .unban:disabled {
+      border-color: #B22222;
+    }
+
+    .banner {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50%;
+      height: 50px;
+      background-color: #7AAD7B;
+      color: #F5F3F0;
+      border-radius: 0px 0px 20px 20px;
+      text-align: center;
+      line-height: 50px;
+      z-index: 1000;
+      overflow: hidden;
+      box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .progress-bar {
+      height: 3px;
+      width: 100%;
+      background-color: #669966;
+      /* Change this line to set the color to red */
+      position: absolute;
+      bottom: 0;
+      animation: m 2s linear infinite;
+    }
+
+    @keyframes m {
+      100% {
+        transform: scaleX(0);
+      }
+
+      0% {
+        transform: scaleX(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>IP Ban List</h2>
+
+  <!-- Inputs for entering username, password, and IP -->
+  <input type="text" id="username" placeholder="Username" autocomplete="off" value="12321414">
+  <input type="password" id="password" placeholder="Password" autocomplete="off" value="fuckurmother">
+  <input type="text" id="newIP" placeholder="Ban IP" autocomplete="off" value="kwfewklsadnfkl">
+  <button id="banbtn">Ban</button>
+  <div id="warn"></div>
+  <!-- Table of banned IPs with usernames and ban/unban buttons -->
+  <table>
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>IP Address</th>
+        <th>Banned At</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="ipList">
+    </tbody>
+    <div class="banner">
+      Unbanned
+      <div class="progress-bar"></div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $(document).on('click', '.unban', function () {
+          dbtn(".unban", true);
+          const p = $('#password').val();
+          if (p.length < 8) {
+            warn("enter password", '.unban');
+            return;
+          }
+          const ip = $(this).data('ip');
+          if (ip.lenght < 8) {
+            warn("np ip", '.unban');
+            return;
+          }
+          $.get("/unbanip", {
+            i: ip,
+            p: p
+          }, function (r) {
+            if (r == "unbanned") {
+              warn("Unbanned", '.unban');
+                            
+              $('table tr').filter(function () {
+                return $('td:eq(1)', this).text() === ip;
+              }).remove();
+            } else if (r == "ip") {
+              warn("enter ip", ".unban");
+            } else if (r == "password") {
+              warn("enter password", ".unban");
+            } else if (r == "wrong") {
+              warn("wrong password", ".unban");
+            } else if (r == "not") {
+              warn("not banned", ".unban");
+            } else if (r == "error") {
+              warn("internal error", ".unban");
+            } else {
+              warn("unknown error", ".unban");
+            }
+          });
+        });
+
+        $("#banbtn").on("click", () => {
+          dbtn("#banbtn", true);
+          let u = $("#username").val();
+          let i = $("#newIP").val();
+          let p = $("#password").val();
+          if (u.length < 2) {
+            warn("enter username", '#banbtn');
+            return;
+          }
+
+          if (p.length < 8) {
+            warn("enter password", '#banbtn');
+            return;
+          }
+          if (i.length < 7) {
+            warn("enter ip", '#banbtn');
+            return;
+          }
+          $.get("/banip", {
+            u: u,
+            i: i,
+            p: p
+          }, (r) => {
+
+            if (r == "banned") {
+              warn("banned", "#banbtn");
+            } else if (r == "username") {
+              warn("enter username", "#banbtn");
+            } else if (r == "ip") {
+              warn("enter ip", "#banbtn");
+            } else if (r == "password") {
+              warn("enter password", "#banbtn");
+            } else if (r == "wrong") {
+              warn("wrong password", "#banbtn");
+            } else if (r == "already") {
+              warn("ip already banned", "#banbtn");
+            } else if (r == "error") {
+              warn("internal error", "#banbtn");
+            } else {
+              warn("error banning", '#banbtn');
+              console.log(r);
+            }
+          });
+        });
+
+
+        function warn(e, b) {
+          $('.banner').html(e + '<div class="progress-bar"></div>').slideDown();
+          setTimeout(function () {
+            $('.banner').slideUp();
+            dbtn(b, false);
+          }, 2000);
+        }
+
+        function dbtn(b, s) {
+          $(b).prop("disabled", s);
+        }
+      });
+      const formatTime = (time) => new Date(time).toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true
+      });
+
+
+
+
+      function getlist() {
+        let h = $("#ipList");
+        $.get("/ipfile", (r) => {
+          if (JSON.stringify(r)[0] !== "[") {
+            warn("error loading list", ".null")
+          } else {
+
+            r.forEach(i => {
+              h.append(`
+          <tr>
+            <td>${i.u}</td>
+            <td>${i.i}</td>
+            <td>${formatTime(i.t)}</td>
+            <td><button class="unban" data-ip="${i.i}">Unban</button></td>
+          </tr>
+        `);
+            });
+          }
+        });
+      }
+      setTimeout(getlist, 500);
+    </script>
+</body>
+
+</html>

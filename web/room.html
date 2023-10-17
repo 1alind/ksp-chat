@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Room 1 - KSP Chat</title>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <link rel="stylesheet" href="/roomstyle">
+</head>
+<body>
+  <div id="loading-screen">
+    <div id="car">&#128668;</div>
+  </div>
+  <style id="laoding-style">
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      right: 0;
+      /* Set right to 0 */
+      width: 100vw;
+      height: 100vh;
+      background: rgba(20, 20, 20, 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+      z-index: 1000;
+    }
+    #car {
+      font-size: 30px;
+      left: 0%;
+      z-index: 1001;  
+      position: absolute;
+      transform: scaleX(-1);
+    }
+  </style>
+  <div id="container">
+    <div id="hs">
+      <span id="homelink" onclick="location.href='/'">&#127968;</span>
+      <span> | </span>
+      <span id="roomValue" value="loading" onclick="window.location.href=''">Room: loading</span>
+      <span> | </span>
+      <span id="userValue" value="username">User: loading</span>
+    </div>
+    <div id="chat-box">
+      <div class="message english">
+        <p><span class="username">User1: </span>loading new messages...</p>
+      </div>
+    </div>
+    <div id="input-section">
+      <input type="text" id="input-message" placeholder="Type your message...">
+      <button id="sndbtn" type="submit">Send</button>      
+    </div>
+  </div>
+  <div id="loadtime" style="display:none;" value="0">0</div>
+  <div id="banner" charset="utf-8">
+    offline 
+  </div>
+  <script src="/roomjs"></script>
+  <div id="warning-overlay">
+    <div id="warning-box">
+      <h3>Important Warning!</h3>
+      <ul>
+        <li>1. Be respectful to others in the chat.</li>
+        <li>2. Do not share personal information.</li>
+        <li>3. Legal actions will be taken for any illegal activities.</li>
+        <li>4. Maintain appropriate language and content.</li>
+        <li>5. No spamming or advertising.</li>
+      </ul>
+      <p>By using our website, you agree to our <a href="/tos" target="_blank">Terms of Service</a> and <a href="/pp"
+          target="_blank">Privacy Policy</a>.</p>
+      <p>Remember, to ensure a safe and enjoyable experience for everyone, violating these guidelines may lead to
+        a temporary or permanent suspension of website access.</p>
+      <button id="hidewarning">Got it!</button>
+    </div>
+  </div>
+  <script id="loading-script">
+ $(document).ready(function() {  
+  var car = $('#car');
+    car.animate({ left: "100%" }, 10000 );
+    setTimeout(async () => {
+     car.stop().animate({ left: "100%" }, 1000 ).promise().then(function() {
+$("#loading-screen").hide().remove();
+       $("#laoding-style").remove();
+       $("#loading-script").remove();
+     });
+    }, 2000); 
+  });
+  </script>
+</body>
+</html>
