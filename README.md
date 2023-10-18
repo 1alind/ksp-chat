@@ -10,9 +10,9 @@
 `npm i`
 
 ### .env
-change these values to what you want \n
-`write dc_bottoken=TOKEN HERE !`\n
-`dc_channel= CHANNEL ID HERE !`\n
+change these values to what you want <br>
+`write dc_bottoken=TOKEN HERE !`<br>
+`dc_channel= CHANNEL ID HERE !`<br>
 `ad_pass= PASSWORD FOR /IPLIST RIGHT Here`
 
 ## run
