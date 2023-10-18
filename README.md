@@ -17,4 +17,4 @@ dc_channel= CHANNEL ID HERE !
 ad_pass= PASSWORD FOR /IPLIST RIGHT Here`
 
 ## run
-`node index.js`
+`npm start`
