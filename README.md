@@ -13,7 +13,9 @@
 chnage these values to what want
 
 `write dc_bottoken=TOKEN HERE !
+
 dc_channel= CHANNEL ID HERE !
+
 ad_pass= PASSWORD FOR /IPLIST RIGHT Here`
 
 ## run
