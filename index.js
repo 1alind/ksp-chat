@@ -29,8 +29,7 @@ const server = http.createServer(async (req, res) => {
       } = require("./functions/contact.js");
       contact(req, res);
     }
-  } else if (req.method == "GET") {
-    //const s = querystring.parse(purl.query);
+  } else if (req.method == "GET") {    
     if (path === '/' || path === '/index.html') {
       let c = fs.readFileSync("web/home.html", 'utf8');
       res.writeHead(200, {

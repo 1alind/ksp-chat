@@ -7,6 +7,7 @@ const {
   datab
 } = require("./db.js");
 var db = datab();
+// this guy checks if the ip guy is a spammer by comparing 2 messages, timestamp < 3 seconds : spammer;
 async function isclean(req, c) {
 
   const userIP = req.connection.remoteAddress;
@@ -43,24 +44,10 @@ async function isclean(req, c) {
               { name: '**user**: ' + userId, value: '\u200B' },                          
               { name: '**room**: ' + r, value: '\u200B', inline: false },              
               { name: '**ip:** ' + userIP, value: '\u200B', inline: false },
-            );
-
-
-         
-          //const msg = `**user:** ${userId}\n**room:** ${r}\n**case:** spam\n**ip:** ${userIP}`;
-
-
-
-         
-          snddiscord(msg,"1162809943699771522", true);
+            );                      
+          snddiscord(msg,process.env.dc_channel, true);
         }
-
       }
-
-
-
-
-
     });
 
 

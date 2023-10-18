@@ -16,7 +16,7 @@ function isFree(r) {
             const messageCount = row.messageCount;       
             const isRoomFree = messageCount === 0;
             resolve(isRoomFree);
-            // Close the database connection after the query is executed          
+                   
         });
     });
 }

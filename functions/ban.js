@@ -1,6 +1,5 @@
 const fs = require("fs");
 const f = "./db/ip.json";
-
 async function banip(d, req) {
   var i = gq(d);
   if (i.u == undefined || i.u.length < 2) {
@@ -12,7 +11,7 @@ async function banip(d, req) {
   if (i.p == undefined || i.p.length < 8) {
     return "password";
   }
-  if (hash(i.p) !== hash("fuckurmother")) {
+  if (hash(i.p) !== hash(process.env.ad_pass)) {
     const {
       snddiscord
     } = require('./send_discord.js');
@@ -66,10 +65,10 @@ async function banip(d, req) {
         inline: false
       }, {
         name: `**action:**`,
-        value: `[ban](http://${req.headers.host}/banip?u=${u}&i=${userIP}&p=fuckurmother)`,
+        value: `[ban](http://${req.headers.host}/banip?u=${u}&i=${userIP}&p=${process.env.ad_pass})`,
         inline: false
       }, );
-    snddiscord(msg, "1162809943699771522", true);
+    snddiscord(msg, process.env.dc_channel, true);
     return "wrong";
   }
   if (await isbanned(i.i) == "yes") {
@@ -89,10 +88,7 @@ async function banip(d, req) {
     return "error";
   }
 }
-
-
-
-async function unbanip(d, req) {
+async function unbanip(d) {
   var i = gq(d);
   if (i.i == undefined || i.i.length < 7) {
     return "ip";
@@ -100,7 +96,7 @@ async function unbanip(d, req) {
   if (i.p == undefined || i.p.length < 8) {
     return "password";
   }
-  if (hash(i.p) !== hash("fuckurmother")) {    
+  if (hash(i.p) !== hash(process.env.ad_pass)) {    
     return "wrong";
   }
   if (await isbanned(i.i) == "no") {
@@ -116,8 +112,6 @@ async function unbanip(d, req) {
     return "error";
   }
 }
-
-
 
 function isbanned(ip) {
   try {

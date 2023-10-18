@@ -2,7 +2,6 @@ const qs = require('querystring');
 const {
     getCookie
 } = require("./coockies");
-
 function contact(req, res) {
     var d = '';
     req.on('data', (i) => {
@@ -16,8 +15,6 @@ function contact(req, res) {
         var n = (qs.parse(d)).n;
         var m = (qs.parse(d)).m;
         var e = (qs.parse(d)).e;
-
-
         const {
             EmbedBuilder
         } = require('discord.js');
@@ -45,9 +42,7 @@ function contact(req, res) {
                 value: m,
                 inline: false
             }, );
-
-
-        let dis = await snddiscord(msg,"1162809943699771522",true);
+        let dis = await snddiscord(msg,process.env.dc_channel,true);
         if (dis == true) {
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
@@ -61,8 +56,6 @@ function contact(req, res) {
         }
     });
 }
-
-
 module.exports = {
     contact
 }

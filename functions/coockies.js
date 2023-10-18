@@ -1,11 +1,10 @@
-const cookies = require('cookies');
-
 function gename() {
     return Math.floor(1000 + Math.random() * 9000);
 }
 var s = 6 * 60 * 60;
 
 // Function to check and generate cookies
+// all cookies are saved for 6 hours only soo yeh change it
 function saveser(req, res) {
     try {
      

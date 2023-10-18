@@ -28,6 +28,8 @@ function sndmsg(req, res) {
             res.end("error 234");
             return;
         }
+
+        // username can only be null or 4 digits and only lumbers else its a HACKER!
         if(u.length != 4 || /^\d+$/.test(u) == false){
             res.writeHead(200, {
                 'Content-Type': 'text/html'

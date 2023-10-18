@@ -35,6 +35,8 @@ function getm(req, tt,res) {
     res.writeHead(200, {
       'Content-Type': 'text/plain'
     });
+    // the room val can only be null wich means there is no coockie 
+    // or a number if its anything else it means it have maunly been chaged    
     res.end("nice try ;)");
     return;
   }
@@ -45,12 +47,10 @@ function getm(req, tt,res) {
     if (err) {
       console.error(err.message);
       return;
-    }
-    // Process the result set
+    }    
     var c = "ok";
     rows = rows.reverse();
-    rows.forEach((x) => {
-      // console.log(k + "--" + x.senttime)
+    rows.forEach((x) => {      
       if (t < x.senttime) {
         c += '<div class="message english"><p><span class="username">' + x.user + ':</span>' + x.message + '</p></div>';
       }
